@@ -1,0 +1,48 @@
+# --- Vendor firmware: never commit ---
+# Flash dumps and extracted images contain the vendor's copyrighted code.
+*.bin
+*.elf
+*.hex
+*.img
+segments/
+dumps/
+firmware/
+
+# --- Ghidra projects (they embed the imported firmware) ---
+*.gpr
+*.rep/
+*.lock
+*.lock~
+*.ulock
+
+# --- ROM symbol dumps and scratch output ---
+rom-ld/
+rom_symbols.txt
+
+# --- Python / MCP bridge environments ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+*-venv/
+
+# --- Secrets and local config ---
+.env
+*.pem
+*.key
+secrets.yaml
+
+# --- Original, unredacted photos (only docs/photos/ is published) ---
+*.heic
+*.HEIC
+*.jpg
+*.jpeg
+!docs/photos/*
+
+# --- Editor / OS clutter ---
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db

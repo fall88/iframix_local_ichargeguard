@@ -1,0 +1,39 @@
+# Battery-driven charging for a wall tablet powered by the iChargeGuard running Tasmota.
+# Replace the entity IDs with your own:
+#   sensor.tablet_battery_level - from WallPanel's MQTT sensors or the HA Companion app
+#   switch.icharger_c2          - the Tasmota charging relay (POWER1)
+
+- alias: Tablet charge off at 80
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.tablet_battery_level
+      above: 79
+  action:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.icharger_c2
+
+- alias: Tablet charge on at 40
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.tablet_battery_level
+      below: 41
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.icharger_c2
+
+# Safety net: charge if the battery is low or the sensor stops reporting.
+- alias: Tablet charge safety net
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.tablet_battery_level
+      below: 20
+    - platform: state
+      entity_id: sensor.tablet_battery_level
+      to: unavailable
+      for: "02:00:00"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.icharger_c2

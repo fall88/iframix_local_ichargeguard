@@ -1,0 +1,14 @@
+# Paste into the Tasmota console after activating template.json.
+# Lines starting with # are comments; do not paste them.
+
+# Strip length, charging on at boot, LED follows relay, Tasmota-style HA discovery,
+# ADC scaling (raw 0-4095 -> mA / mV; calibrate the last number against a USB meter)
+Backlog Pixels 26; PowerOnState 1; LedState 1; SetOption19 0; AdcParam1 6,0,4095,0,2570; AdcParam2 6,0,4095,0,12400
+
+# Optional fail-safe copied from the stock firmware: charge whenever MQTT drops
+Rule1 ON Mqtt#Disconnected DO Power1 1 ENDON
+Rule1 1
+
+# Optional: keep the LED strip (POWER2) off after a reboot
+Rule2 ON System#Boot DO Power2 0 ENDON
+Rule2 1
